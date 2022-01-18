@@ -1,19 +1,28 @@
 import "package:flutter/material.dart";
+import 'package:gym_app/exerciseCard.dart';
 import 'package:gym_app/main.dart';
 
-class addButton extends StatelessWidget {
-  const addButton({ Key? key }) : super(key: key);
+class addButton extends StatefulWidget {
+  const addButton({Key? key}) : super(key: key);
+
+  @override
+  State<addButton> createState() => _addButtonState();
+}
+
+class _addButtonState extends State<addButton> {
+  
+
+  
+  
 
   @override
   Widget build(BuildContext context) {
     return Container(
-            child: FloatingActionButton(
-            backgroundColor: appColors["main"],
-            onPressed: null,
-            
-          ),
-          margin: const EdgeInsets.only(top: 10.0),
-          
+      child: Center(
+        
+      ),
+      
+      
     );
   }
 }

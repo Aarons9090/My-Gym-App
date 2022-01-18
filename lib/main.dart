@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import "./topBar.dart";
+import './exerciseCard.dart';
+import './addButton.dart';
 
 Map<String, Color> appColors = {
   "background": const Color(0xff04052E),
@@ -19,6 +21,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  List<Widget> dynamicList = [];
+
+  void addButtonPressed() {
+    setState(() {
+      dynamicList.add(exerciseCard());
+      print("added");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,9 +43,23 @@ class _MyAppState extends State<MyApp> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          addButton()
+          Container(
+            height: 600,
+            child: ListView.builder(
+                itemCount: dynamicList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return dynamicList[index];
+                }),
+          ),
+          FloatingActionButton.extended(
+            label: const Text("Add exercise"),
+            icon: Icon(Icons.add),
+            onPressed: addButtonPressed,
+            backgroundColor: appColors["main"],
+          ),
           
-        ],
+   
+          ],
       ),
     ));
   }
