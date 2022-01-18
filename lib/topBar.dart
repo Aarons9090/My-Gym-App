@@ -4,13 +4,13 @@ import 'package:gym_app/main.dart';
 class topBar extends StatelessWidget implements PreferredSizeWidget {
   
 
-  const topBar({required AppBar appBar});
+  topBar({required AppBar appBar});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Text("My Gym App"),
-      backgroundColor: appColors["topbar"],
+      backgroundColor: appColors["main"],
     );
   }
 

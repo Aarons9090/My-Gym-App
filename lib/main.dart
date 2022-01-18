@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import "./topBar.dart";
 
 Map<String, Color> appColors = {
-  "background" : const Color(0xff04052E),
-  "topbar" : const Color(0xff140152),
+  "background": const Color(0xff04052E),
+  "main": const Color(0xff140152),
+  "white": const Color(0xffffffff),
 };
 
 void main() {
@@ -21,12 +22,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
-      home: Scaffold(
-        appBar: topBar(
-          appBar: AppBar(),
-        )
-      )
-    );
+        home: Scaffold(
+      backgroundColor: appColors["background"],
+      appBar: topBar(
+        appBar: AppBar(),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          addButton()
+          
+        ],
+      ),
+    ));
   }
 }
