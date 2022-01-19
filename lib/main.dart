@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
       appBar: TopBar(
         appBar: AppBar(),
       ),
-      body: Column(
+      body: SingleChildScrollView(child:Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -36,6 +36,6 @@ class _MyAppState extends State<MyApp> {
           AddButton(),
         ],
       ),
-    ));
+    )));
   }
 }
