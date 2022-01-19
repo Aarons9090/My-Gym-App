@@ -24,18 +24,19 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      backgroundColor: appColors["background"],
-      appBar: TopBar(
-        appBar: AppBar(),
-      ),
-      body: SingleChildScrollView(child:Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: const <Widget>[
-          AddButton(),
-        ],
-      ),
-    )));
+            backgroundColor: appColors["background"],
+            appBar: TopBar(
+              appBar: AppBar(),
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const <Widget>[
+                  AddButton(),
+                ],
+              ),
+            )));
   }
 }

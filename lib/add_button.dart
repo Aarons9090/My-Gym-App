@@ -10,7 +10,7 @@ class AddButton extends StatefulWidget {
 }
 
 class _AddButtonState extends State<AddButton> {
-  List<Widget> cardList = [];
+  final List<Widget> cardList = [];
 
   // Add exercise button clicked
   void addButtonPressed() {
@@ -55,15 +55,15 @@ class _AddButtonState extends State<AddButton> {
     return Column(
       children: <Widget>[
         SingleChildScrollView(
-          child:SizedBox(
-          height: 600,
-          child: ListView.builder(
-              itemCount: cardList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return cardList[index];
-              }),
-        ),),
-        
+          child: SizedBox(
+            height: 600,
+            child: ListView.builder(
+                itemCount: cardList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return cardList[index];
+                }),
+          ),
+        ),
         FloatingActionButton.extended(
           label: const Text("Add exercise"),
           icon: const Icon(Icons.add),
