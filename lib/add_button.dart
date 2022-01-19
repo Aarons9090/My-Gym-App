@@ -12,35 +12,39 @@ class AddButton extends StatefulWidget {
 class _AddButtonState extends State<AddButton> {
   List<Widget> cardList = [];
 
+  // Add exercise button clicked
   void addButtonPressed() {
     setState(() {
-      //cardList.add(ExerciseCard(Text("sd")));
       late TextEditingController _controller = TextEditingController();
-      String input = "null";
+      // variable for exercise name input
+      String _input = "null";
       showDialog(
           context: context,
-          builder: (_) {
-            return AlertDialog(
-                content: Column(
-              children: [
-                TextField(
-                  controller: _controller,
-                  onChanged: (String value) {
-                    input = value;
-                  },
-                ),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      if (input != "null") {
-                        cardList.add(ExerciseCard(Text(input)));
-                      }
-                      Navigator.of(context).pop();
-                    });
-                  },
-                  child: const Text("Ok"),
-                )
-              ],
+          builder: (BuildContext context) {
+            return SingleChildScrollView(
+                child: AlertDialog(
+              title: const Text("Enter exercise:"),
+              content: Column(
+                children: [
+                  TextField(
+                    controller: _controller,
+                    onChanged: (String value) {
+                      _input = value;
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("Add"),
+                    onPressed: () {
+                      setState(() {
+                        if (_input != "null") {
+                          cardList.add(ExerciseCard(Text(_input)));
+                        }
+                        Navigator.of(context).pop();
+                      });
+                    },
+                  ),
+                ],
+              ),
             ));
           });
     });
