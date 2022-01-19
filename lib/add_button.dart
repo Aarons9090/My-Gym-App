@@ -32,7 +32,7 @@ class _AddButtonState extends State<AddButton> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      if(input != "null"){
+                      if (input != "null") {
                         cardList.add(ExerciseCard(Text(input)));
                       }
                       Navigator.of(context).pop();
