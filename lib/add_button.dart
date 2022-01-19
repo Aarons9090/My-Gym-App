@@ -14,7 +14,35 @@ class _AddButtonState extends State<AddButton> {
 
   void addButtonPressed() {
     setState(() {
-      cardList.add(const ExerciseCard());
+      //cardList.add(ExerciseCard(Text("sd")));
+      late TextEditingController _controller = TextEditingController();
+      String input = "null";
+      showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+                content: Column(
+              children: [
+                TextField(
+                  controller: _controller,
+                  onChanged: (String value) {
+                    input = value;
+                  },
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      if(input != "null"){
+                        cardList.add(ExerciseCard(Text(input)));
+                      }
+                      Navigator.of(context).pop();
+                    });
+                  },
+                  child: const Text("Ok"),
+                )
+              ],
+            ));
+          });
     });
   }
 
