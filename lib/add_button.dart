@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:gym_app/exercise_card.dart';
 import 'package:gym_app/main.dart';
+import "database.dart";
 
 class AddButton extends StatefulWidget {
   const AddButton({Key? key}) : super(key: key);
@@ -11,6 +12,16 @@ class AddButton extends StatefulWidget {
 
 class _AddButtonState extends State<AddButton> {
   final List<Widget> cardList = [];
+
+  void deleteCards(){
+    setState((){
+        cardList.clear();
+    });
+    
+  }
+  void createNewCard(ExerciseCard e){
+    cardList.add(e);
+  }
 
   // Add exercise button clicked
   void addButtonPressed() {
@@ -37,7 +48,8 @@ class _AddButtonState extends State<AddButton> {
                     onPressed: () {
                       setState(() {
                         if (_input != "null") {
-                          cardList.add(ExerciseCard(_input));
+                          
+                          Tietokanta().lisaaNimi(_input);
                         }
                         Navigator.of(context).pop();
                       });
@@ -52,25 +64,45 @@ class _AddButtonState extends State<AddButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SingleChildScrollView(
-          child: SizedBox(
-            height: 600,
-            child: ListView.builder(
-                itemCount: cardList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return cardList[index];
-                }),
-          ),
-        ),
-        FloatingActionButton.extended(
-          label: const Text("Add exercise"),
-          icon: const Icon(Icons.add),
-          onPressed: addButtonPressed,
-          backgroundColor: appColors["main"],
-        ),
-      ],
-    );
+    return FutureBuilder(
+        future: Tietokanta().haeNimet(), // async-metodin kutsu
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          cardList.clear();
+          if (snapshot.hasData) {
+            
+            for (var nimi in snapshot.data) {
+              if (nimi == null) {
+                continue;
+              }
+
+              ExerciseCard new_card = ExerciseCard(nimi);
+              
+              cardList.add(new_card);
+            }
+
+            return Column(
+              children: <Widget>[
+                SingleChildScrollView(
+                  child: SizedBox(
+                    height: 600,
+                    child: ListView.builder(
+                        itemCount: cardList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return cardList[index];
+                        }),
+                  ),
+                ),
+                FloatingActionButton.extended(
+                  label: const Text("Add exercise"),
+                  icon: const Icon(Icons.add),
+                  onPressed: addButtonPressed,
+                  backgroundColor: appColors["main"],
+                ),
+              ],
+            );
+          } else {
+            return Text('Hetkinen...');
+          }
+        });
   }
 }
