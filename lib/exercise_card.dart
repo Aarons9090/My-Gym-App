@@ -15,7 +15,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
   void _buttonPressed() {
     setState(() {
-      
       // variable for input
       String _reps = "null";
       String _weight = "null";
@@ -30,11 +29,9 @@ class _ExerciseCardState extends State<ExerciseCard> {
               content: Wrap(
                 runSpacing: 20,
                 children: [
-
                   // Reps
                   const Text("Enter reps:"),
                   TextField(
-                    
                     controller: TextEditingController(),
                     onChanged: (String value) {
                       _reps = value;
@@ -64,10 +61,14 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     child: const Text("Add"),
                     onPressed: () {
                       setState(() {
-                        if ((_reps != "null") & (_weight != "null") & (_date != "null")) {
-                          
+                        if ((_reps != "null") &
+                            (_weight != "null") &
+                            (_date != "null")) {
                           _repCard.add(
                             Card(
+                              color: appColors["light"],
+                              margin: const EdgeInsets.only(
+                                  left: 6, right: 6, top: 6, bottom: 6),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -97,60 +98,75 @@ class _ExerciseCardState extends State<ExerciseCard> {
     return Card(
       child: Column(
         children: [
+          //Top row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Header / Exercise name
+              SizedBox(
+                width: 300,
+                child: ListTile(
+                  title: Text(widget._exerciseTitle,
+                      style: const TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),),
+                  textColor: appColors["main"],
+                ),
+              ),
 
-          // Header / Exercise name
-          SizedBox(
-            child: ListTile(
-              title: Text(widget._exerciseTitle,
-                  style: const TextStyle(fontSize: 30.0)),
-            ),
+              //Delete button
+              Container(
+                alignment: Alignment.bottomRight,
+                child: TextButton(
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ],
           ),
 
           // Titles
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const <Widget>[
-              Text("Reps"),
-              Text("Weight"),
-              Text("Date"),
+            children: <Widget>[
+              Text(
+                "Reps",
+                style: TextStyle(color: appColors["main"]),
+              ),
+              Text("Weight", style: TextStyle(color: appColors["main"])),
+              Text("Date", style: TextStyle(color: appColors["main"])),
             ],
           ),
 
           // Background of sets
-          
-            Container(
-              
-              decoration: BoxDecoration(
-    color: appColors["main"],
-    
-    
-    borderRadius: BorderRadius.circular(7),
-  ),
-
-
-
+          Container(
+            decoration: BoxDecoration(
+              color: appColors["dark"],
+              borderRadius: BorderRadius.circular(7),
+            ),
             margin: const EdgeInsets.only(left: 10, right: 10),
-            
-            child:ListView.builder(
-                  shrinkWrap: true,
-                    itemCount: _repCard.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _repCard[index];
-                    }),
-              ),
-            
-          
-          
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: _repCard.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return _repCard[index];
+                }),
+          ),
+
           // Container for button
           Container(
-            
+            margin: const EdgeInsets.only(right: 10),
             alignment: Alignment.bottomRight,
-            child: FloatingActionButton.small(
-              backgroundColor: Colors.black,
+            child:
+
+                //Add button
+                FloatingActionButton.small(
+              backgroundColor: appColors["main"],
               child: const Icon(Icons.add),
               onPressed: _buttonPressed,
             ),
-          )
+          ),
         ],
       ),
     );

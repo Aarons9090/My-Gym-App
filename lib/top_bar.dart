@@ -8,7 +8,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("My Gym App"),
+            title: const Text("My Gym App"),
       backgroundColor: appColors["main"],
     );
   }

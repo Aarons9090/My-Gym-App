@@ -3,9 +3,10 @@ import 'top_bar.dart';
 import 'add_button.dart';
 
 Map<String, Color> appColors = {
-  "background": const Color(0xff04052E),
-  "main": const Color(0xff140152),
-  "white": const Color(0xffffffff),
+  "background": const Color(0xffEEEFF2),
+  "main": const Color(0xff4043A2),
+  "light": const Color(0xffEAECFC),
+  "highlight": const Color(0xffFF570C),
 };
 
 void main() {
@@ -29,7 +30,7 @@ class _MyAppState extends State<MyApp> {
               appBar: AppBar(),
             ),
             body: SingleChildScrollView(
-              child: Column(
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
