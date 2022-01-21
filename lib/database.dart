@@ -1,11 +1,8 @@
-import "package:flutter/material.dart";
-import 'package:gym_app/main.dart';
 import 'package:sqflite/sqflite.dart';
 
+class LocalDatabse {
 
-class Tietokanta {
-
-  avaaTietokanta() async {
+  openLocalDatabase() async {
     return await openDatabase('tietokantatiedosto.db',
       version: 1,
       onCreate: (Database db, int version) async {
@@ -14,8 +11,8 @@ class Tietokanta {
     );
   }
 
-  haeNimet() async {
-    var tietokanta = await avaaTietokanta();
+  getNames() async {
+    var tietokanta = await openLocalDatabase();
     var rivit = await tietokanta.rawQuery('SELECT * FROM names');
     await tietokanta.close();
 
@@ -27,8 +24,8 @@ class Tietokanta {
     return nimet;
   }
 
-  lisaaNimi(nimi) async {
-    var tietokanta = await avaaTietokanta();
+  addName(nimi) async {
+    var tietokanta = await openLocalDatabase();
     await tietokanta.rawInsert('INSERT INTO names (name) VALUES (?)', [nimi]);
     await tietokanta.close();
   }

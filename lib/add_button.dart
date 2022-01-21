@@ -13,13 +13,13 @@ class AddButton extends StatefulWidget {
 class _AddButtonState extends State<AddButton> {
   final List<Widget> cardList = [];
 
-  void deleteCards(){
-    setState((){
-        cardList.clear();
+  void deleteCards() {
+    setState(() {
+      cardList.clear();
     });
-    
   }
-  void createNewCard(ExerciseCard e){
+
+  void createNewCard(ExerciseCard e) {
     cardList.add(e);
   }
 
@@ -48,8 +48,7 @@ class _AddButtonState extends State<AddButton> {
                     onPressed: () {
                       setState(() {
                         if (_input != "null") {
-                          
-                          Tietokanta().lisaaNimi(_input);
+                          LocalDatabse().addName(_input);
                         }
                         Navigator.of(context).pop();
                       });
@@ -65,26 +64,25 @@ class _AddButtonState extends State<AddButton> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: Tietokanta().haeNimet(), // async-metodin kutsu
+        future: LocalDatabse().getNames(), // async-metodin kutsu
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           cardList.clear();
           if (snapshot.hasData) {
-            
             for (var nimi in snapshot.data) {
               if (nimi == null) {
                 continue;
               }
 
               ExerciseCard new_card = ExerciseCard(nimi);
-              
+
               cardList.add(new_card);
             }
 
-            return Column(
+            return Stack(
               children: <Widget>[
                 SingleChildScrollView(
                   child: SizedBox(
-                    height: 600,
+                    height: 610,
                     child: ListView.builder(
                         itemCount: cardList.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -92,12 +90,19 @@ class _AddButtonState extends State<AddButton> {
                         }),
                   ),
                 ),
-                FloatingActionButton.extended(
-                  label: const Text("Add exercise"),
-                  icon: const Icon(Icons.add),
-                  onPressed: addButtonPressed,
-                  backgroundColor: appColors["main"],
-                ),
+
+                Positioned(
+                  bottom: 10,
+                  left: 110,
+                  child: FloatingActionButton.extended(
+                    label: const Text("Add exercise"),
+                    icon: const Icon(Icons.add),
+                    onPressed: addButtonPressed,
+                    backgroundColor: appColors["main"],
+                  ),
+                )
+
+                // add exercise button
               ],
             );
           } else {
