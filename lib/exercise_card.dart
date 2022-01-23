@@ -6,7 +6,8 @@ class ExerciseCard extends StatefulWidget {
   final String _exerciseTitle;
   final Function refreshParent;
 
-  const ExerciseCard(this._exerciseTitle, this.refreshParent, {Key? key}) : super(key: key);
+  const ExerciseCard(this._exerciseTitle, this.refreshParent, {Key? key})
+      : super(key: key);
 
   @override
   State<ExerciseCard> createState() => _ExerciseCardState();
@@ -14,13 +15,12 @@ class ExerciseCard extends StatefulWidget {
 
 class _ExerciseCardState extends State<ExerciseCard> {
   late final List<Card> _repCard = [];
-  
-  void deleteCard(){
+
+  void deleteCard() {
     setState(() {
       LocalDatabase().deleteName(widget._exerciseTitle);
       widget.refreshParent();
     });
-    
   }
 
   void _buttonPressed() {
@@ -65,36 +65,62 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       _date = value;
                     },
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // Cancel
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          primary: appColors["main"],
+                          side: BorderSide(
+                            
+                            width: 2.0,
+                            color: (appColors["main"])!,
+                            style: BorderStyle.solid,)
+                        ),
+                          child: const Text("Cancel"),
+                          onPressed: () {
+                            setState(() {
+                              Navigator.of(context).pop();
+                            });
+                          }),
+
+                      // Add
+                      ElevatedButton(
+                        child: const Text("Add"),
+                        style: ElevatedButton.styleFrom(
+                            primary: appColors["main"]),
+                        onPressed: () {
+                          setState(() {
+                            if ((_reps != "null") &
+                                (_weight != "null") &
+                                (_date != "null")) {
+                              _repCard.add(
+                                Card(
+                                  color: appColors["light"],
+                                  margin: const EdgeInsets.only(
+                                      left: 6, right: 6, top: 6, bottom: 6),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(_reps),
+                                      Text(_weight),
+                                      Text(_date),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                            Navigator.of(context).pop();
+                          });
+                        },
+                      ),
+                    ],
+                  )
+                  // Cancel
 
                   // Add button
-                  TextButton(
-                    child: const Text("Add"),
-                    onPressed: () {
-                      setState(() {
-                        if ((_reps != "null") &
-                            (_weight != "null") &
-                            (_date != "null")) {
-                          _repCard.add(
-                            Card(
-                              color: appColors["light"],
-                              margin: const EdgeInsets.only(
-                                  left: 6, right: 6, top: 6, bottom: 6),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(_reps),
-                                  Text(_weight),
-                                  Text(_date),
-                                ],
-                              ),
-                            ),
-                          );
-                        }
-                        Navigator.of(context).pop();
-                      });
-                    },
-                  ),
                 ],
               ),
             ));
@@ -116,8 +142,11 @@ class _ExerciseCardState extends State<ExerciseCard> {
               SizedBox(
                 width: 300,
                 child: ListTile(
-                  title: Text(widget._exerciseTitle,
-                      style: const TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),),
+                  title: Text(
+                    widget._exerciseTitle,
+                    style: const TextStyle(
+                        fontSize: 30.0, fontWeight: FontWeight.bold),
+                  ),
                   textColor: appColors["main"],
                 ),
               ),
@@ -126,13 +155,12 @@ class _ExerciseCardState extends State<ExerciseCard> {
               Container(
                 alignment: Alignment.bottomRight,
                 child: IconButton(
-                  splashRadius: 20,
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.black,
-                  ),
-                  onPressed: deleteCard
-                ),
+                    splashRadius: 20,
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.black,
+                    ),
+                    onPressed: deleteCard),
               ),
             ],
           ),
