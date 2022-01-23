@@ -4,9 +4,10 @@ import 'package:gym_app/main.dart';
 import "database.dart";
 
 class AddButton extends StatefulWidget {
+  const AddButton({
+    Key? key,
+  }) : super(key: key);
 
-  const AddButton({Key? key,}) : super(key: key);
-  
   @override
   State<AddButton> createState() => _AddButtonState();
 }
@@ -15,9 +16,8 @@ class _AddButtonState extends State<AddButton> {
   final List<Widget> cardList = [];
 
   //called when a card is deleted
-  void refresh(){
-    setState(() {
-    });
+  void refresh() {
+    setState(() {});
   }
 
   void deleteCards() {
@@ -50,16 +50,38 @@ class _AddButtonState extends State<AddButton> {
                       _input = value;
                     },
                   ),
-                  TextButton(
-                    child: const Text("Add"),
-                    onPressed: () {
-                      setState(() {
-                        if (_input != "null") {
-                          LocalDatabase().addName(_input);
-                        }
-                        Navigator.of(context).pop();
-                      });
-                    },
+                  const SizedBox(height: 20,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              primary: appColors["main"],
+                              side: BorderSide(
+                                width: 2.0,
+                                color: (appColors["main"])!,
+                                style: BorderStyle.solid,
+                              )),
+                          child: const Text("Cancel"),
+                          onPressed: () {
+                            setState(() {
+                              Navigator.of(context).pop();
+                            });
+                          }),
+                      ElevatedButton(
+                        child: const Text("Add"),
+                        style: ElevatedButton.styleFrom(
+                            primary: appColors["main"]),
+                        onPressed: () {
+                          setState(() {
+                            if (_input != "null") {
+                              LocalDatabase().addName(_input);
+                            }
+                            Navigator.of(context).pop();
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -71,7 +93,7 @@ class _AddButtonState extends State<AddButton> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: LocalDatabase().getNames(), 
+        future: LocalDatabase().getNames(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           cardList.clear();
           if (snapshot.hasData) {
@@ -109,8 +131,6 @@ class _AddButtonState extends State<AddButton> {
                     backgroundColor: appColors["main"],
                   ),
                 )
-
-                
               ],
             );
           } else {

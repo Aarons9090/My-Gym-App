@@ -73,7 +73,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
                         style: OutlinedButton.styleFrom(
                           primary: appColors["main"],
                           side: BorderSide(
-                            
                             width: 2.0,
                             color: (appColors["main"])!,
                             style: BorderStyle.solid,)
