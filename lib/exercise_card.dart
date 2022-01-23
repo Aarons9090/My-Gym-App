@@ -33,11 +33,10 @@ class _ExerciseCardState extends State<ExerciseCard> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return SingleChildScrollView(
-                child: AlertDialog(
+            return  AlertDialog(
               title: const Text("Enter details:"),
               content: Wrap(
-                runSpacing: 20,
+                runSpacing: 10,
                 children: [
                   // Reps
                   const Text("Enter reps:"),
@@ -98,7 +97,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                                 Card(
                                   color: appColors["light"],
                                   margin: const EdgeInsets.only(
-                                      left: 6, right: 6, top: 6, bottom: 6),
+                                      left: 6, right: 6, top: 3, bottom: 3),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
@@ -117,12 +116,9 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       ),
                     ],
                   )
-                  // Cancel
-
-                  // Add button
                 ],
               ),
-            ));
+            );
           });
     });
   }
@@ -139,7 +135,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
             children: [
               // Header / Exercise name
               SizedBox(
-                width: 300,
+                width: MediaQuery.of(context).size.width * 0.8,
                 child: ListTile(
                   title: Text(
                     widget._exerciseTitle,
@@ -183,7 +179,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
               color: appColors["dark"],
               borderRadius: BorderRadius.circular(7),
             ),
-            margin: const EdgeInsets.only(left: 10, right: 10),
+            margin: const EdgeInsets.only(left: 10, right: 10, top: 3),
             child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: _repCard.length,

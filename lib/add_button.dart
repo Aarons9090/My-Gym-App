@@ -122,14 +122,20 @@ class _AddButtonState extends State<AddButton> {
 
                 // add exercise button
                 Positioned(
-                  bottom: 10,
-                  left: 110,
-                  child: FloatingActionButton.extended(
+                  bottom: MediaQuery.of(context).size.height *0.01,
+                  left: MediaQuery.of(context).size.width /4,
+                  child: 
+                  
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width /2,
+                    child: FloatingActionButton.extended(
                     label: const Text("Add exercise"),
                     icon: const Icon(Icons.add),
                     onPressed: addButtonPressed,
                     backgroundColor: appColors["main"],
                   ),
+                  )
+                  
                 )
               ],
             );

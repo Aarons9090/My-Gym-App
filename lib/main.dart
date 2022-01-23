@@ -9,10 +9,10 @@ Map<String, Color> appColors = {
   "highlight": const Color(0xffFF570C),
 };
 
+
 void main() {
   runApp(const MyApp());
 }
-
 
 
 class MyApp extends StatefulWidget {
@@ -51,7 +51,6 @@ class _MyAppState extends State<MyApp> {
   // PageView for multiple pages
   Widget buildPageView() {
     return PageView(
-     
       controller: pageController,
       onPageChanged: (index) {
         pageSwipe(index);
@@ -67,6 +66,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.blue,
