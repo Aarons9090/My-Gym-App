@@ -12,7 +12,6 @@ class _ScrollAreaState extends State<ScrollArea> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.max,

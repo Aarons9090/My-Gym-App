@@ -4,14 +4,21 @@ import 'package:gym_app/main.dart';
 import "database.dart";
 
 class AddButton extends StatefulWidget {
-  const AddButton({Key? key}) : super(key: key);
 
+  const AddButton({Key? key,}) : super(key: key);
+  
   @override
   State<AddButton> createState() => _AddButtonState();
 }
 
 class _AddButtonState extends State<AddButton> {
   final List<Widget> cardList = [];
+
+  //called when a card is deleted
+  void refresh(){
+    setState(() {
+    });
+  }
 
   void deleteCards() {
     setState(() {
@@ -48,7 +55,7 @@ class _AddButtonState extends State<AddButton> {
                     onPressed: () {
                       setState(() {
                         if (_input != "null") {
-                          LocalDatabse().addName(_input);
+                          LocalDatabase().addName(_input);
                         }
                         Navigator.of(context).pop();
                       });
@@ -64,7 +71,7 @@ class _AddButtonState extends State<AddButton> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: LocalDatabse().getNames(), // async-metodin kutsu
+        future: LocalDatabase().getNames(), 
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           cardList.clear();
           if (snapshot.hasData) {
@@ -73,9 +80,9 @@ class _AddButtonState extends State<AddButton> {
                 continue;
               }
 
-              ExerciseCard new_card = ExerciseCard(nimi);
+              ExerciseCard newCard = ExerciseCard(nimi, refresh);
 
-              cardList.add(new_card);
+              cardList.add(newCard);
             }
 
             return Stack(
@@ -91,6 +98,7 @@ class _AddButtonState extends State<AddButton> {
                   ),
                 ),
 
+                // add exercise button
                 Positioned(
                   bottom: 10,
                   left: 110,
@@ -102,11 +110,11 @@ class _AddButtonState extends State<AddButton> {
                   ),
                 )
 
-                // add exercise button
+                
               ],
             );
           } else {
-            return Text('Hetkinen...');
+            return const Text("Couldn't receive data");
           }
         });
   }

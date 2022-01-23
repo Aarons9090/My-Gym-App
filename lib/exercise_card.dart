@@ -1,17 +1,27 @@
 import "package:flutter/material.dart";
+import 'package:gym_app/database.dart';
 import 'package:gym_app/main.dart';
 
 class ExerciseCard extends StatefulWidget {
   final String _exerciseTitle;
+  final Function refreshParent;
 
-  const ExerciseCard(this._exerciseTitle, {Key? key}) : super(key: key);
+  const ExerciseCard(this._exerciseTitle, this.refreshParent, {Key? key}) : super(key: key);
 
   @override
   State<ExerciseCard> createState() => _ExerciseCardState();
 }
 
 class _ExerciseCardState extends State<ExerciseCard> {
-  late List<Card> _repCard = [];
+  late final List<Card> _repCard = [];
+  
+  void deleteCard(){
+    setState(() {
+      LocalDatabase().deleteName(widget._exerciseTitle);
+      widget.refreshParent();
+    });
+    
+  }
 
   void _buttonPressed() {
     setState(() {
@@ -115,12 +125,13 @@ class _ExerciseCardState extends State<ExerciseCard> {
               //Delete button
               Container(
                 alignment: Alignment.bottomRight,
-                child: TextButton(
-                  child: const Icon(
+                child: IconButton(
+                  splashRadius: 20,
+                  icon: const Icon(
                     Icons.delete,
                     color: Colors.black,
                   ),
-                  onPressed: () {},
+                  onPressed: deleteCard
                 ),
               ),
             ],

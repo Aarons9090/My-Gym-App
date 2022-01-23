@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-class LocalDatabse {
+class LocalDatabase {
 
   openLocalDatabase() async {
     return await openDatabase('tietokantatiedosto.db',
@@ -12,12 +12,12 @@ class LocalDatabse {
   }
 
   getNames() async {
-    var tietokanta = await openLocalDatabase();
-    var rivit = await tietokanta.rawQuery('SELECT * FROM names');
-    await tietokanta.close();
+    var db = await openLocalDatabase();
+    var rows = await db.rawQuery('SELECT * FROM names');
+    await db.close();
 
     var nimet = [];
-    for (var rivi in rivit) {
+    for (var rivi in rows) {
       nimet.add(rivi['name']);
     }
 
@@ -25,9 +25,15 @@ class LocalDatabse {
   }
 
   addName(nimi) async {
-    var tietokanta = await openLocalDatabase();
-    await tietokanta.rawInsert('INSERT INTO names (name) VALUES (?)', [nimi]);
-    await tietokanta.close();
+    var db = await openLocalDatabase();
+    await db.rawInsert('INSERT INTO names (name) VALUES (?)', [nimi]);
+    await db.close();
+    
   }
 
+  deleteName(nimi) async {
+    var db = await openLocalDatabase();
+    await db.rawDelete("DELETE FROM names WHERE name = ?", [nimi]);
+    await db.close();
+  }
 }
