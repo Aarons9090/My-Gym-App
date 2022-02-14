@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_app/database.dart';
 import 'top_bar.dart';
 import "main_scroll_area.dart";
 
@@ -66,6 +67,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    
+ //   LocalDatabase().addExercise("penkki");
+   // LocalDatabase().addExercise("mave");
+    //LocalDatabase().addRep("penkki", "3", "1232", "daxdte");
+    //LocalDatabase().addRep("mave", "111", "sdsdsd", "daxdsdte");
 
     return MaterialApp(
         theme: ThemeData(

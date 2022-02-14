@@ -1,24 +1,28 @@
 import "package:flutter/material.dart";
 import 'package:gym_app/database.dart';
 import 'package:gym_app/main.dart';
+import 'package:gym_app/rep_card.dart';
 
 class ExerciseCard extends StatefulWidget {
   final String _exerciseTitle;
   final Function refreshParent;
+  final List<repCard> _repCard;
 
-  const ExerciseCard(this._exerciseTitle, this.refreshParent, {Key? key})
-      : super(key: key);
+  const ExerciseCard(
+    this._exerciseTitle,
+    this.refreshParent,
+    this._repCard, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ExerciseCard> createState() => _ExerciseCardState();
 }
 
 class _ExerciseCardState extends State<ExerciseCard> {
-  late final List<Card> _repCard = [];
-
   void deleteCard() {
     setState(() {
-      LocalDatabase().deleteName(widget._exerciseTitle);
+      LocalDatabase().deleteExercise(widget._exerciseTitle);
       widget.refreshParent();
     });
   }
@@ -33,7 +37,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return  AlertDialog(
+            return AlertDialog(
               title: const Text("Enter details:"),
               content: Wrap(
                 runSpacing: 10,
@@ -69,13 +73,13 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     children: [
                       // Cancel
                       OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          primary: appColors["main"],
-                          side: BorderSide(
-                            width: 2.0,
-                            color: (appColors["main"])!,
-                            style: BorderStyle.solid,)
-                        ),
+                          style: OutlinedButton.styleFrom(
+                              primary: appColors["main"],
+                              side: BorderSide(
+                                width: 2.0,
+                                color: (appColors["main"])!,
+                                style: BorderStyle.solid,
+                              )),
                           child: const Text("Cancel"),
                           onPressed: () {
                             setState(() {
@@ -93,21 +97,11 @@ class _ExerciseCardState extends State<ExerciseCard> {
                             if ((_reps != "null") &
                                 (_weight != "null") &
                                 (_date != "null")) {
-                              _repCard.add(
-                                Card(
-                                  color: appColors["light"],
-                                  margin: const EdgeInsets.only(
-                                      left: 6, right: 6, top: 3, bottom: 3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(_reps),
-                                      Text(_weight),
-                                      Text(_date),
-                                    ],
-                                  ),
-                                ),
+                              LocalDatabase().addRep(widget._exerciseTitle, _reps, _weight, _date);
+                              widget._repCard.add(
+                                    repCard(_reps, _weight, _date)
+                                  
+                                
                               );
                             }
                             Navigator.of(context).pop();
@@ -182,9 +176,9 @@ class _ExerciseCardState extends State<ExerciseCard> {
             margin: const EdgeInsets.only(left: 10, right: 10, top: 3),
             child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: _repCard.length,
+                itemCount: widget._repCard.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return _repCard[index];
+                  return widget._repCard[index];
                 }),
           ),
 

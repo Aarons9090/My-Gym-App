@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:gym_app/exercise_card.dart';
 import 'package:gym_app/main.dart';
 import "database.dart";
+import "rep_card.dart";
 
 class AddButton extends StatefulWidget {
   const AddButton({
@@ -50,7 +51,9 @@ class _AddButtonState extends State<AddButton> {
                       _input = value;
                     },
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -75,7 +78,7 @@ class _AddButtonState extends State<AddButton> {
                         onPressed: () {
                           setState(() {
                             if (_input != "null") {
-                              LocalDatabase().addName(_input);
+                              LocalDatabase().addExercise(_input);
                             }
                             Navigator.of(context).pop();
                           });
@@ -93,19 +96,22 @@ class _AddButtonState extends State<AddButton> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: LocalDatabase().getNames(),
+        future: LocalDatabase().getCards(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           cardList.clear();
           if (snapshot.hasData) {
-            for (var nimi in snapshot.data) {
-              if (nimi == null) {
-                continue;
-              }
+            Map<String, List<Map<String, String>>> cards =
+                snapshot.data as Map<String, List<Map<String, String>>>;
+            List<repCard> repCards = [];
 
-              ExerciseCard newCard = ExerciseCard(nimi, refresh);
-
-              cardList.add(newCard);
-            }
+            cards.forEach((k, v) => {
+                  repCards.clear(),
+                  for (var rep in v)
+                    {
+                      repCards.add(repCard(rep["reps"]!, rep["weight"]!, rep["date"]!))
+                    },
+                  cardList.add(ExerciseCard(k, refresh, List.from(repCards))),
+                });
 
             return Stack(
               children: <Widget>[
@@ -122,21 +128,17 @@ class _AddButtonState extends State<AddButton> {
 
                 // add exercise button
                 Positioned(
-                  bottom: MediaQuery.of(context).size.height *0.01,
-                  left: MediaQuery.of(context).size.width /4,
-                  child: 
-                  
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width /2,
-                    child: FloatingActionButton.extended(
-                    label: const Text("Add exercise"),
-                    icon: const Icon(Icons.add),
-                    onPressed: addButtonPressed,
-                    backgroundColor: appColors["main"],
-                  ),
-                  )
-                  
-                )
+                    bottom: MediaQuery.of(context).size.height * 0.01,
+                    left: MediaQuery.of(context).size.width / 4,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: FloatingActionButton.extended(
+                        label: const Text("Add exercise"),
+                        icon: const Icon(Icons.add),
+                        onPressed: addButtonPressed,
+                        backgroundColor: appColors["main"],
+                      ),
+                    ))
               ],
             );
           } else {

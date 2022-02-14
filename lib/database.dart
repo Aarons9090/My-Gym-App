@@ -1,39 +1,67 @@
 import 'package:sqflite/sqflite.dart';
 
 class LocalDatabase {
-
   openLocalDatabase() async {
-    return await openDatabase('tietokantatiedosto.db',
-      version: 1,
-      onCreate: (Database db, int version) async {
-        await db.execute('CREATE TABLE names (id SERIAL PRIMARY KEY, name TEXT NOT NULL);');
-      }
-    );
+    return await openDatabase('new15.db', version: 1,
+        onCreate: (Database db, int version) async {
+      await db.execute('CREATE TABLE cards (exerciseName TEXT PRIMARY KEY NOT NULL);');
+      await db.execute(
+          'CREATE TABLE repCards (exerciseName TEXT NOT NULL, reps TEXT NOT NULL, weight TEXT NOT NULL, date TEXT NOT NULL);');
+    });
   }
 
-  getNames() async {
+  getCards() async {
     var db = await openLocalDatabase();
-    var rows = await db.rawQuery('SELECT * FROM names');
-    await db.close();
+    var rows = await db.rawQuery('SELECT * FROM cards');
+    //await db.close();
+    
+    Map<String, List<Map<String, String>>> cards = {};
+    List<Map<String, String>> repCards = [];
 
-    var nimet = [];
     for (var rivi in rows) {
-      nimet.add(rivi['name']);
+      repCards = await getRepsCards(rivi["exerciseName"]);
+      cards[rivi["exerciseName"]] = repCards;
     }
 
-    return nimet;
+    return cards;
   }
 
-  addName(nimi) async {
+  getRepsCards(String name) async {
     var db = await openLocalDatabase();
-    await db.rawInsert('INSERT INTO names (name) VALUES (?)', [nimi]);
-    await db.close();
-    
+    var rows = await db
+        .rawQuery('SELECT * FROM repCards WHERE exerciseName=?', [name]);
+
+    List<Map<String, String>> repCards = [];
+
+    for (var rivi in rows) {
+      repCards.add({
+        "exerciseName": rivi["exerciseName"],
+        "reps": rivi["reps"],
+        "weight": rivi["weight"],
+        "date": rivi["date"]
+      });
+    }
+    return repCards;
   }
 
-  deleteName(nimi) async {
+  addExercise(name) async {
     var db = await openLocalDatabase();
-    await db.rawDelete("DELETE FROM names WHERE name = ?", [nimi]);
-    await db.close();
+    await db.rawInsert('INSERT INTO cards VALUES (?)', [name]);
+    //await db.close();
+  }
+
+  addRep(String cardName, String reps, String weight, String date) async {
+    var db = await openLocalDatabase();
+    await db.rawUpdate(
+        'INSERT INTO repCards (exerciseName, reps, weight, date) VALUES (?,?,?,?)',
+        [cardName, reps, weight, date]);
+    //await db.close();
+  }
+
+  deleteExercise(name) async {
+    var db = await openLocalDatabase();
+    await db.rawDelete("DELETE FROM cards WHERE exerciseName = ?", [name]);
+    await db.rawDelete("DELETE FROM repCards WHERE exerciseName = ?", [name]);
+    //await db.close();
   }
 }
