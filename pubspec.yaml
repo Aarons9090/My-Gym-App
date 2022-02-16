@@ -26,7 +26,10 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
+
+
 dependencies:
+
   flutter:
     sdk: flutter
 
@@ -37,6 +40,7 @@ dependencies:
   sqflite: ^2.0.2
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.9.2"
   flutter_test:
     sdk: flutter
 
@@ -49,7 +53,14 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
+  adaptive_icon_background: "#4043A2"
+  adaptive_icon_foreground: "assets/icon.png"
 
+  
 # The following section is specific to Flutter.
 flutter:
    
