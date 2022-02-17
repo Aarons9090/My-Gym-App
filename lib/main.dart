@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gym_app/database.dart';
 import 'top_bar.dart';
 import "main_scroll_area.dart";
 

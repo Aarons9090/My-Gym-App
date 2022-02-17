@@ -64,4 +64,10 @@ class LocalDatabase {
     await db.rawDelete("DELETE FROM repCards WHERE exerciseName = ?", [name]);
     //await db.close();
   }
+
+    deleteRepCard(name, reps, weight, date) async {
+    var db = await openLocalDatabase();
+    await db.rawDelete("DELETE FROM repCards WHERE exerciseName = ? and reps=? and weight=? and date=?", [name, reps, weight, date]);
+    //await db.close();
+  }
 }

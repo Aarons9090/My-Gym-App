@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 class ExerciseCard extends StatefulWidget {
   final String _exerciseTitle;
   final Function refreshParent;
-  final List<repCard> _repCard;
+  final List<RepCard> _repCard;
 
   const ExerciseCard(
     this._exerciseTitle,
@@ -136,9 +136,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                                 (_date != "null")) {
                               LocalDatabase().addRep(
                                   widget._exerciseTitle, _reps, _weight, _date);
-                              print(_reps + _weight + _date);
-                              widget._repCard
-                                  .add(repCard(_reps, _weight, _date));
+                              widget._repCard.add(RepCard(widget._exerciseTitle,
+                                  _reps, _weight, _date));
                             }
                             Navigator.of(context).pop();
                           });
@@ -210,11 +209,25 @@ class _ExerciseCardState extends State<ExerciseCard> {
               borderRadius: BorderRadius.circular(7),
             ),
             margin: const EdgeInsets.only(left: 10, right: 10, top: 3),
+
+            // Item builder
             child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: widget._repCard.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return widget._repCard[index];
+                  RepCard card = widget._repCard[index];
+                  return Dismissible(
+                    background: Card(color: appColors["highlight"],),
+                    child: card,
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      setState(() {
+                        LocalDatabase().deleteRepCard(widget._exerciseTitle,
+                        card.getReps(), card.getWeight(), card.getDate());
+                        widget._repCard.removeAt(index);
+                      });
+                    },
+                  );
                 }),
           ),
 

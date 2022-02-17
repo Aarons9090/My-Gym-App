@@ -102,13 +102,13 @@ class _AddButtonState extends State<AddButton> {
           if (snapshot.hasData) {
             Map<String, List<Map<String, String>>> cards =
                 snapshot.data as Map<String, List<Map<String, String>>>;
-            List<repCard> repCards = [];
+            List<RepCard> repCards = [];
 
             cards.forEach((k, v) => {
                   repCards.clear(),
                   for (var rep in v)
                     {
-                      repCards.add(repCard(rep["reps"]!, rep["weight"]!, rep["date"]!))
+                      repCards.add(RepCard(k, rep["reps"]!, rep["weight"]!, rep["date"]!))
                     },
                   cardList.add(ExerciseCard(k, refresh, List.from(repCards))),
                 });
