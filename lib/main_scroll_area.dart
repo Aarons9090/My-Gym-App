@@ -11,16 +11,6 @@ class ScrollArea extends StatefulWidget {
 class _ScrollAreaState extends State<ScrollArea> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: const <Widget>[
-          
-          AddButton(),
-        ],
-      ),
-    );
+    return const AddButton();
   }
 }

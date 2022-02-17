@@ -33,8 +33,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
   String _weight = "null";
   String _date = DateFormat("dd.MM.yyyy").format(DateTime.now());
 
-  final TextEditingController _dateController =
-      TextEditingController(text: DateFormat("dd.MM.yyyy").format(DateTime.now()));
+  final TextEditingController _dateController = TextEditingController(
+      text: DateFormat("dd.MM.yyyy").format(DateTime.now()));
 
   Future<void> _showDateDialog(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -52,7 +52,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
   void _buttonPressed() {
     setState(() {
-      _dateController.text =  DateFormat("dd.MM.yyyy").format(DateTime.now());
+      _dateController.text = DateFormat("dd.MM.yyyy").format(DateTime.now());
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -86,7 +86,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       Expanded(
                         flex: 5,
                         child: TextField(
-                          
                           controller: _dateController,
                           onChanged: (String value) {
                             _date = value;
