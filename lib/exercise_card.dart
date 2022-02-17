@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:gym_app/database.dart';
 import 'package:gym_app/main.dart';
 import 'package:gym_app/rep_card.dart';
+import 'package:intl/intl.dart';
 
 class ExerciseCard extends StatefulWidget {
   final String _exerciseTitle;
@@ -27,13 +28,31 @@ class _ExerciseCardState extends State<ExerciseCard> {
     });
   }
 
+  // variable for input
+  String _reps = "null";
+  String _weight = "null";
+  String _date = DateFormat("dd.MM.yyyy").format(DateTime.now());
+
+  final TextEditingController _dateController =
+      TextEditingController(text: DateFormat("dd.MM.yyyy").format(DateTime.now()));
+
+  Future<void> _showDateDialog(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+    if (pickedDate != null) {
+      setState(() {
+        _date = DateFormat("dd.MM.yyyy").format(pickedDate);
+        _dateController.text = _date;
+      });
+    }
+  }
+
   void _buttonPressed() {
     setState(() {
-      // variable for input
-      String _reps = "null";
-      String _weight = "null";
-      String _date = "null";
-
+      _dateController.text =  DateFormat("dd.MM.yyyy").format(DateTime.now());
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -59,15 +78,34 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       _weight = value;
                     },
                   ),
+                  const Text("Enter date:"),
 
                   // Date
-                  const Text("Enter date:"),
-                  TextField(
-                    controller: TextEditingController(),
-                    onChanged: (String value) {
-                      _date = value;
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: TextField(
+                          
+                          controller: _dateController,
+                          onChanged: (String value) {
+                            _date = value;
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                            splashRadius: 20,
+                            onPressed: () {
+                              setState(() {
+                                _showDateDialog(context);
+                              });
+                            },
+                            icon: const Icon(Icons.calendar_today)),
+                      )
+                    ],
                   ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -97,12 +135,11 @@ class _ExerciseCardState extends State<ExerciseCard> {
                             if ((_reps != "null") &
                                 (_weight != "null") &
                                 (_date != "null")) {
-                              LocalDatabase().addRep(widget._exerciseTitle, _reps, _weight, _date);
-                              widget._repCard.add(
-                                    repCard(_reps, _weight, _date)
-                                  
-                                
-                              );
+                              LocalDatabase().addRep(
+                                  widget._exerciseTitle, _reps, _weight, _date);
+                              print(_reps + _weight + _date);
+                              widget._repCard
+                                  .add(repCard(_reps, _weight, _date));
                             }
                             Navigator.of(context).pop();
                           });
